@@ -8,12 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import React from 'react';
+import React from "react";
+import { useNotification } from "../../context/notification.context";
+import { LoginValidate } from "../../utils/validateForms";
 type LoginType = {
   username: string;
   password: string;
 };
 export const LoginPage: React.FC<{}> = () => {
+  const { getError, getSuccess } = useNotification();
+
   const [loginData, setLoginData] = useState<LoginType>({
     username: "",
     password: "",
@@ -23,10 +27,17 @@ export const LoginPage: React.FC<{}> = () => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit =(e: React.FormEvent<HTMLInputElement>)=>{
-    e.preventDefault()
+  const handleSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    LoginValidate.validate(loginData)
+      .then(() => {
+        getSuccess(JSON.stringify(loginData));
+      })
+      .catch((error) => {
+        getError(error.message);
+      });
     console.log(loginData);
-  }
+  };
   return (
     <Container maxWidth="sm">
       <Grid
@@ -60,7 +71,6 @@ export const LoginPage: React.FC<{}> = () => {
                 sx={{ mt: 1.5, mb: 1.5 }}
                 required
                 onChange={dataLogin}
-
               />
               <Button
                 fullWidth
