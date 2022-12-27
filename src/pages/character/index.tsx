@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { characters } from "../../api/characters";
 import { ICharacter } from "./interfaces/character.interface";
@@ -10,12 +10,14 @@ import {
   Typography,
   Divider,
   Chip,
+  Button,
 } from "@mui/material";
 
 export const CharacterPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [character, setCharacter] = useState<ICharacter | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     characters
@@ -44,14 +46,26 @@ export const CharacterPage: React.FC = () => {
               <Typography sx={{ mt: 2 }} variant="h6">
                 {character!.origin.name}
               </Typography>
-              <Box sx={{ mt: 2 }}>
-                <Chip
-                  color="primary"
-                  variant="outlined"
-                  label={character!.status}
-                />
-              </Box>
+              <>
+                <Box sx={{ mt: 2 }}>
+                  <Chip
+                    color="primary"
+                    variant="outlined"
+                    label={character!.status}
+                  />
+                </Box>
+                <Box
+                  sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => navigate(`/`)}>
+                    To return
+                  </Button>
+                </Box>
+              </>
             </Grid>
+
             <Grid item xs={6}>
               <img
                 src={character!.image}
