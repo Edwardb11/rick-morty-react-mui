@@ -45,6 +45,14 @@ export const CardComponent: React.FC<CardProps> = ({
           onClick={() => navigate(`/character/${id}`)}>
           Learn More
         </Button>
+        <Button
+          fullWidth
+          variant='outlined'
+          size="small"
+          disabled
+        >
+          Add to cart
+        </Button>
       </CardActions>
     </Card>
   );
