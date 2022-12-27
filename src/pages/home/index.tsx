@@ -1,4 +1,11 @@
-import { Box, Button, CircularProgress, Container, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Pagination,
+} from "@mui/material";
 import { CardComponent, HeaderComponent } from "../../components";
 import { useEffect, useState } from "react";
 import { characters } from "../../api/characters";
@@ -9,19 +16,25 @@ export const HomePage: React.FC<{}> = () => {
     []
   );
   const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(1);
 
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
   useEffect(() => {
     setLoading(true);
     characters
-      .getAll({ page: 1 })
+      .getAll({ page })
       .then((r) => {
         setAllCharacters(r.data.results);
+        setCount(r.data.info.pages);
         setTimeout(() => setLoading(false), 1000);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  }, [page]);
   return (
     <Container sx={{ mt: 9 }} maxWidth="xl">
       <HeaderComponent
@@ -39,25 +52,39 @@ export const HomePage: React.FC<{}> = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <div>
-          {allCharacters?.length !== 0 ? (
-            <Grid sx={{my:2}} container spacing={3} direction="row">
-              {allCharacters!.map((character) => (
-                <Grid item xs={3}>
-                  <CardComponent
-                    key={character.id}
-                    image={character.image}
-                    name={character.name}
-                    species={character.species}
-                    status={character.status}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            "No data"
-          )}
-        </div>
+        <>
+          <div>
+            {allCharacters?.length !== 0 ? (
+              <Grid sx={{ my: 2 }} container spacing={3} direction="row">
+                {allCharacters!.map((character) => (
+                  <Grid item xs={3}>
+                    <CardComponent
+                      key={character.id}
+                      image={character.image}
+                      name={character.name}
+                      species={character.species}
+                      status={character.status}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              "No data"
+            )}
+          </div>
+          <Box
+            sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <Pagination
+              variant="outlined"
+              color="primary"
+              count={count}
+              page={page}
+              onChange={handleChange}
+              sx={{ mb: 3 }}
+              size="large"
+            />
+          </Box>
+        </>
       )}
     </Container>
   );
