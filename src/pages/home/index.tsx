@@ -1,5 +1,5 @@
 import { Button, Container } from "@mui/material";
-import { HeaderComponent } from "../../components";
+import { CardComponent, HeaderComponent } from "../../components";
 import { useEffect } from "react";
 import { characters } from "../../api/characters";
 
@@ -26,6 +26,7 @@ export const HomePage: React.FC<{}> = () => {
           </Button>
         }
       />
+      <CardComponent/>
     </Container>
   );
 };
