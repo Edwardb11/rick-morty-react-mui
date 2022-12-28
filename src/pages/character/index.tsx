@@ -13,7 +13,7 @@ import {
   Button,
 } from "@mui/material";
 
-export const CharacterPage: React.FC = () => {
+const CharacterPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [character, setCharacter] = useState<ICharacter | null>(null);
@@ -79,3 +79,5 @@ export const CharacterPage: React.FC = () => {
     </Box>
   );
 };
+
+export default CharacterPage;
