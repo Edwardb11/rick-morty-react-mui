@@ -37,7 +37,7 @@ export const NavBar: React.FC<{}> = () => {
                 alignItems="center">
                 <Grid item>
                   {" "}
-                  <Typography> Logo</Typography>{" "}
+                  <Typography> Rick and Morty</Typography>{" "}
                 </Grid>
                 <Grid item>
                   <Stack direction="row" spacing={2}>

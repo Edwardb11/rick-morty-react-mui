@@ -10,6 +10,7 @@ import { CardComponent, HeaderComponent } from "../../components";
 import { useEffect, useState } from "react";
 import { characters } from "../../api/characters";
 import { TypeCharacter } from "./interface/character.interface";
+import { Link } from "react-router-dom";
 
 export const HomePage: React.FC<{}> = () => {
   const [allCharacters, setAllCharacters] = useState<TypeCharacter[] | null>(
@@ -38,12 +39,14 @@ export const HomePage: React.FC<{}> = () => {
   return (
     <Container sx={{ mt: 9 }} maxWidth="xl">
       <HeaderComponent
-        title="Hola mundo"
+        title="Rick and Morty"
         description="Esta pagina esta hecha con MUI"
         element={
-          <Button variant="contained" fullWidth>
-            Hola
-          </Button>
+          <a target="blank" href="https://mui.com/">
+            <Button variant="contained" fullWidth>
+              DOCS: MUI
+            </Button>
+          </a>
         }
       />
 
