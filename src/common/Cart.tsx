@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Divider,
@@ -6,10 +6,10 @@ import {
   IconButton,
   Stack,
   Typography,
-} from '@mui/material';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { HorizontalCardComponent } from '../components/HorizontalCard/Index';
-
+} from "@mui/material";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { HorizontalCardComponent } from "../components/HorizontalCard/Index";
+import { useAppSelector } from "../redux/hooks";
 
 interface CartComponentProps {
   open: boolean;
@@ -20,30 +20,31 @@ export const CartComponent: React.FC<CartComponentProps> = ({
   open,
   handleStateViewDrawer,
 }) => {
+  const items = useAppSelector((state) => state.cartReducer);
   return (
-    <Drawer anchor={'right'} open={open}>
-      <Box sx={{ width: '25em', p: 2 }}>
+    <Drawer anchor={"right"} open={open}>
+      <Box sx={{ width: "25em", p: 2 }}>
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Typography variant="h5">Cart</Typography>
           <IconButton color="primary" onClick={() => handleStateViewDrawer()}>
             <CloseRoundedIcon />
           </IconButton>
         </Stack>
         <Divider sx={{ my: 1.5 }} />
-        <HorizontalCardComponent
-          image="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-          name="Rick"
-          info="Tierra"
-        />
-        <HorizontalCardComponent
-          image="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-          name="Rick"
-          info="Tierra"
-        />
+        {items.length > 0
+          ? items.map(({ id, img, name, info }) => (
+              <HorizontalCardComponent
+                id={id}
+                key={id}
+                image={img}
+                name={name}
+                info={info}
+              />
+            ))
+          : "No hay items"}
       </Box>
     </Drawer>
   );

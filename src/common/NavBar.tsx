@@ -15,9 +15,11 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import { CartComponent } from "./Cart";
 import { useState } from "react";
+import { useAppSelector } from "../redux/hooks";
 export const NavBar: React.FC<{}> = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
+  const items = useAppSelector((state) => state.cartReducer);
 
   const handleStateViewDrawer = () => {
     setOpen((state) => !state);
@@ -42,7 +44,7 @@ export const NavBar: React.FC<{}> = () => {
                     <IconButton
                       color="primary"
                       onClick={() => handleStateViewDrawer()}>
-                      <Badge color="error" badgeContent={2}>
+                      <Badge color="error" badgeContent={items.length}>
                         <ShoppingCartOutlinedIcon />
                       </Badge>
                     </IconButton>
