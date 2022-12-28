@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addToCart } from "../../redux/slices/cart.slice";
+import { setItems } from "../../utils/localStorage";
 
 type CardProps = {
   image: string;
@@ -33,6 +34,7 @@ export const CardComponent: React.FC<CardProps> = ({
   const itemExist = useAppSelector((state) => state.cartReducer);
   useEffect(() => {
     setDisableBtn(itemExist.some((item) => item.id === id));
+    setItems("cart", itemExist);
   }, [itemExist, id]);
 
   const handleAddToCart = () => {
